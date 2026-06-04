@@ -67,13 +67,13 @@ public class OrderServlet extends HttpServlet {
 					o.setFulladd(fullAdd);
 					o.setBookName(c.getBookName());
 					o.setAuthor(c.getAuthor());
-					c.setPrice(c.getPrice());
+					o.setPrice(String.valueOf(c.getPrice()));
 					o.setPaymentType(paymentType);
 					orderList.add(o);
 
 				}
 
-				if ("noselect".endsWith(paymentType)) {
+				if ("noselect".equals(paymentType)) {
 					session.setAttribute("failedMsg", "Please Choose Payment Type!");
 					resp.sendRedirect("checkout.jsp");
 				} else {
@@ -81,7 +81,7 @@ public class OrderServlet extends HttpServlet {
 					boolean f = dao2.saveOrder(orderList);
 
 					if (f) {
-
+						dao.clearCart(id);
 						resp.sendRedirect("order_success.jsp");
 						// System.out.println("Order Success");
 					} else {

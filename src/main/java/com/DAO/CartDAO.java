@@ -14,4 +14,6 @@ public interface CartDAO {
 	
 	public boolean deleteBook(int bid, int uid,int cid);
 
+	public boolean clearCart(int userId);
+
 }

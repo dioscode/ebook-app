@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.BookDAOImpl"%>
 <%@page import="com.entity.BookDtls"%>
@@ -9,48 +7,55 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>All Recent Book</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturni E-Books | Old Books</title>
 <%@include file="all_component/allCss.jsp"%>
-<style type="text/css">
-.crd-ho:hover {
-	background-color: #edeadf;
-}
-</style>
 </head>
 <body>
-	<%@ include file="all_component/navbar.jsp"%>
-	<div class="container">
-		<div class="row p-3">
-			<%
-			BookDAOImpl dao3 = new BookDAOImpl(DBConnect.getConn());
-			List<BookDtls> list3 = dao3.getAllOldBook();
-			for (BookDtls b : list3) {
-			%>
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/<%=b.getPhotoName()%>"
-							style="width: 100px; height: 150px" class="img-thumblin">
-						<p><%=b.getBookName()%></p>
-						<p><%=b.getAuthor()%></p>
-						<p><%=b.getBookCategory()%></p>
-						<div class="row">
-							<a href="view_books.jsp?bid=<%=b.getBookid()%>" class="btn btn-success btn-sm ml-5"> View Details</a> <a
-								href="" class="btn btn-danger btn-sm"><%=b.getPrice()%></a>
-						</div>
+<%@ include file="all_component/navbar.jsp"%>
 
+<div class="section-wrap" style="min-height:70vh">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag"><i class="fas fa-gem"></i> &nbsp;Pre-Loved</div>
+      <h2 class="section-title">Old Books</h2>
+      <div class="section-div"></div>
+    </div>
+    <div class="row">
+      <%
+      BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
+      List<BookDtls> list = dao.getAllOldBook();
+      int idx = 0;
+      for (BookDtls b : list) {
+      %>
+      <div class="col-6 col-md-4 col-lg-3 mb-4 reveal d<%=(idx%4)+1%>">
+        <div class="book-card">
+          <div class="book-cover">
+            <span class="book-badge badge-old">Old</span>
+            <img alt="<%=b.getBookName()%>" src="book/<%=b.getPhotoName()%>">
+          </div>
+          <div class="book-body">
+            <div class="book-name"><%=b.getBookName()%></div>
+            <div class="book-author"><i class="fas fa-pen-nib" style="font-size:.7rem;margin-right:4px"></i><%=b.getAuthor()%></div>
+            <span class="book-cat"><i class="fas fa-tag"></i> <%=b.getBookCategory()%></span>
+            <div class="book-actions">
+              <a href="view_books.jsp?bid=<%=b.getBookid()%>" class="btn-bc btn-bc-view"><i class="fas fa-eye"></i> View Details</a>
+              <span class="book-price"><%=b.getPrice()%> L</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% idx++; } %>
+      <% if (list.isEmpty()) { %>
+      <div class="col-12 text-center py-5 reveal">
+        <i class="fas fa-gem" style="font-size:3rem;color:var(--primary);opacity:.3"></i>
+        <p style="color:var(--text-muted);margin-top:16px;font-weight:500">No old books available yet.</p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
 
-
-					</div>
-
-				</div>
-
-			</div>
-
-			<%
-			}
-			%>
-		</div>
-	</div>
+<%@ include file="all_component/footer.jsp"%>
 </body>
 </html>

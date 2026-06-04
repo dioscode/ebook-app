@@ -1,92 +1,74 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="com.DB.DBConnect"%>
 <%@page import="com.DAO.BookDAOImpl"%>
 <%@page import="com.entity.BookDtls"%>
 <%@page import="com.entity.User"%>
 <%@page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>All Recent Book</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturni E-Books | Recent Books</title>
 <%@include file="all_component/allCss.jsp"%>
-<style type="text/css">
-.crd-ho:hover {
-	background-color: #edeadf;
-}
-</style>
 </head>
 <body>
-	<%
-	User u = (User) session.getAttribute("userobj");
-	%>
+<%@ include file="all_component/navbar.jsp"%>
+<% User u = (User) session.getAttribute("userobj"); %>
 
-	<%@ include file="all_component/navbar.jsp"%>
-	<div class="container">
-		<div class="row p-3">
-			<%
-			BookDAOImpl dao2 = new BookDAOImpl(DBConnect.getConn());
-			List<BookDtls> list2 = dao2.getAllRecentBook();
-			for (BookDtls b : list2) {
-			%>
-			<div class="col-md-3">
-				<div class="card crd-ho mt-2">
-					<div class="card-body text-center">
-						<img alt="" src="book/<%=b.getPhotoName()%>"
-							style="width: 100px; height: 150px" class="img-thumblin">
-						<p><%=b.getBookName()%></p>
-						<p><%=b.getAuthor()%></p>
-						<p>
+<div class="section-wrap" style="min-height:70vh">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag"><i class="fas fa-clock"></i> &nbsp;Just Added</div>
+      <h2 class="section-title">Recent Books</h2>
+      <div class="section-div"></div>
+    </div>
+    <div class="row">
+      <%
+      BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
+      List<BookDtls> list = dao.getAllRecentBook();
+      int idx = 0;
+      for (BookDtls b : list) {
+      %>
+      <div class="col-6 col-md-4 col-lg-3 mb-4 reveal d<%=(idx%4)+1%>">
+        <div class="book-card">
+          <div class="book-cover">
+            <span class="book-badge badge-recent">Recent</span>
+            <img alt="<%=b.getBookName()%>" src="book/<%=b.getPhotoName()%>">
+          </div>
+          <div class="book-body">
+            <div class="book-name"><%=b.getBookName()%></div>
+            <div class="book-author"><i class="fas fa-pen-nib" style="font-size:.7rem;margin-right:4px"></i><%=b.getAuthor()%></div>
+            <span class="book-cat"><i class="fas fa-tag"></i> <%=b.getBookCategory()%></span>
+            <div class="book-actions">
+              <% if (b.getBookCategory().equals("Old")) { %>
+                <a href="view_books.jsp?bid=<%=b.getBookid()%>" class="btn-bc btn-bc-view"><i class="fas fa-eye"></i> View</a>
+              <% } else { %>
+                <% if (u == null) { %>
+                  <a href="login.jsp" class="btn-bc btn-bc-cart"><i class="fas fa-cart-plus"></i> Cart</a>
+                <% } else { %>
+                  <a href="cart?bid=<%=b.getBookid()%>&&uid=<%=u.getId()%>" class="btn-bc btn-bc-cart"><i class="fas fa-cart-plus"></i> Cart</a>
+                <% } %>
+                <a href="view_books.jsp?bid=<%=b.getBookid()%>" class="btn-bc btn-bc-view"><i class="fas fa-eye"></i> View</a>
+              <% } %>
+              <span class="book-price"><%=b.getPrice()%> L</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% idx++; } %>
+      <% if (list.isEmpty()) { %>
+      <div class="col-12 text-center py-5 reveal">
+        <i class="fas fa-clock" style="font-size:3rem;color:var(--primary);opacity:.3"></i>
+        <p style="color:var(--text-muted);margin-top:16px;font-weight:500">No recent books available yet.</p>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
 
-							<%
-							if (b.getBookCategory().equals("Old")) {
-							%>
-							Categories:<%=b.getBookCategory()%></p>
-						<div class="row">
-							<a href="view_books.jsp?bid=<%=b.getBookid()%>"
-								class="btn btn-success btn-sm ml-5">View Details</a> <a href=""
-								class="btn btn-danger btn-sm"><%=b.getPrice()%></a>
-						</div>
-						<%
-						} else {
-						%>
-						Categories:<%=b.getBookCategory()%></p>
-						<div class="row">
-							<%
-							if (u == null) {
-							%>
-							<a href="login.jsp" class="btn btn-danger btn-sm ml-1"><i
-								class="fa-solid fa-cart-shopping"></i> Add Cart</a>
-							<%
-							} else {
-							%>
-							<a href="cart?bid=<%=b.getBookid()%>&&uid=<%=u.getId()%>"
-								class="btn btn-danger btn-sm ml-1"><i
-								class="fa-solid fa-cart-shopping"></i> Add Cart</a>
-							<%
-							}
-							%>
-
-							<a href="view_books.jsp?bid=<%=b.getBookid()%>"
-								class="btn btn-success btn-sm">View Details</a> <a href=""
-								class="btn btn-danger btn-sm"><%=b.getPrice()%></a>
-						</div>
-						<%
-						}
-						%>
-
-					</div>
-
-				</div>
-
-			</div>
-
-			<%
-			}
-			%>
-		</div>
-	</div>
+<%@ include file="all_component/footer.jsp"%>
 </body>
 </html>

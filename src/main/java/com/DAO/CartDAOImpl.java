@@ -48,7 +48,6 @@ public class CartDAOImpl implements CartDAO{
 	public List<Cart> getBookByUser(int userId) {
 		List<Cart> list=new ArrayList<Cart>();
 	    Cart c=null;
-		double totalPrice=0;
 		try {
 			String sql="select * from cart where uid=?";
 			PreparedStatement ps=conn.prepareStatement(sql);
@@ -65,8 +64,7 @@ public class CartDAOImpl implements CartDAO{
 				c.setAuthor(rs.getString(5));
 				c.setPrice(rs.getDouble(6));
 				
-				totalPrice=totalPrice+rs.getDouble(7);
-				c.setTotalPrice(totalPrice);
+				c.setTotalPrice(rs.getDouble(6));
 				
 				list.add(c);
 			
@@ -99,7 +97,20 @@ public class CartDAOImpl implements CartDAO{
 		}
 		return f;
 	}
-	
-	
-	
+
+	@Override
+	public boolean clearCart(int userId) {
+		boolean f = false;
+		try {
+			String sql = "delete from cart where uid=?";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, userId);
+			ps.executeUpdate();
+			f = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return f;
+	}
+
 }

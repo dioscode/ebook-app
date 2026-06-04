@@ -368,7 +368,7 @@ public class BookDAOImpl implements BookDAO {
 		boolean f = false;
 		try {
 
-			String sql = "delete * from book_dtls where bookCategory=? and email=? and bookid=?";
+			String sql = "delete from book_dtls where bookCategory=? and email=? and bookid=?";
 			PreparedStatement ps = conn.prepareStatement(sql);
 
 			ps.setString(1, cat);

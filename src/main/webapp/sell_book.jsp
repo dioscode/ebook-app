@@ -1,78 +1,73 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Sell Book</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturni E-Books | Sell a Book</title>
 <%@include file="all_component/allCss.jsp"%>
 </head>
-<body style="background-color: #f0f1f2;">
-	<c:if test="${empty userobj }">
-		<c:redirect url="login.jsp" />
-	</c:if>
+<body>
+<c:if test="${empty userobj}"><c:redirect url="login.jsp"/></c:if>
+<%@ include file="all_component/navbar.jsp"%>
 
-	<%@include file="all_component/navbar.jsp"%>
+<div class="auth-bg" style="min-height:auto;padding:60px 16px">
+  <div class="auth-card" style="max-width:500px">
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4 offset-md-4 mt-2">
-				<div class="card">
-					<div class="card-body bg-white mt-2">
-						<h5 class="text-center text-primary p-1">Sell Old Book</h5>
-						
-						
-						<c:if test="${not empty succMsg }">
-							<p class="text-center text-success">${succMsg }</p>
-							<c:remove var="succMsg" scope="session" />
-						</c:if>
+    <div class="auth-logo-wrap">
+      <div class="auth-logo-icon" style="background:linear-gradient(135deg,#f9ca24,#e17b20)">
+        <i class="fas fa-tag"></i>
+      </div>
+      <div class="auth-brand-name" style="color:#e17b20">Sell <span style="color:var(--primary)">a Book</span></div>
+    </div>
 
-						<c:if test="${not empty failedMsg }">
-							<p class="text-center text-danger">${failedMsg }</p>
-							<c:remove var="failedMsg" scope="session" />
-						</c:if>
-						
+    <h2 class="auth-title">List Your Book</h2>
+    <p class="auth-sub">Fill in the details and upload a photo</p>
 
-						<form action="add_old_book" method="post"
-							enctype="multipart/form-data">
+    <c:if test="${not empty succMsg}">
+      <div class="alert-m alert-m-success"><i class="fas fa-check-circle"></i> ${succMsg}</div>
+      <c:remove var="succMsg" scope="session"/>
+    </c:if>
+    <c:if test="${not empty failedMsg}">
+      <div class="alert-m alert-m-danger"><i class="fas fa-exclamation-circle"></i> ${failedMsg}</div>
+      <c:remove var="failedMsg" scope="session"/>
+    </c:if>
 
+    <form action="add_old_book" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="user" value="${userobj.email}">
 
-							<input type="hidden" value="${userobj.email}" name="user">
+      <div class="fg">
+        <label class="fl">Book Name</label>
+        <input type="text" name="bname" class="fc" placeholder="e.g. The Great Gatsby" required>
+      </div>
+      <div class="fg">
+        <label class="fl">Author Name</label>
+        <input type="text" name="author" class="fc" placeholder="e.g. F. Scott Fitzgerald" required>
+      </div>
+      <div class="fg">
+        <label class="fl">Price (L)</label>
+        <input type="number" name="price" class="fc" placeholder="e.g. 800" min="1" required>
+      </div>
+      <div class="fg">
+        <label class="fl">Book Cover Photo</label>
+        <input type="file" name="bimg" accept="image/*" class="fc" style="padding:10px 16px;cursor:pointer">
+        <small style="color:var(--text-muted);font-size:.75rem;margin-top:4px;display:block">JPG, PNG accepted</small>
+      </div>
 
-							<div class="form-group">
-								<label for="exampleInputEmail1">Book Name*</label> <input
-									name="bname" type="text" class="form-control"
-									id="exampleInputEmail1" aria-describedby="emailHelp">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputPassword1">Author Name*</label> <input
-									name="author" type="text" class="form-control"
-									id="exampleInputEmail1" aria-describedby="emailHelp">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputPassword1">Price*</label> <input
-									name=price type="number" class="form-control"
-									id="exampleInputEmail1">
-							</div>
+      <button type="submit" class="btn-auth" style="background:linear-gradient(135deg,#f9ca24,#e17b20)">
+        <i class="fas fa-upload" style="margin-right:8px"></i> List My Book
+      </button>
+    </form>
 
+    <p class="auth-footer-txt" style="margin-top:18px">
+      <a href="old_book.jsp" class="auth-link"><i class="fas fa-list" style="margin-right:4px"></i>My Listed Books</a>
+    </p>
 
-							<div class="form-group">
-								<label for="exampleFormControlfile">Upload Photo</label> <input
-									name="bimg" type="file" class="form-control-file"
-									id="exampleFormControlfile">
-							</div>
+  </div>
+</div>
 
-
-							<button type="submit" class="btn btn-primary">Sell Book</button>
-
-						</form>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<%@ include file="all_component/footer.jsp"%>
 </body>
 </html>

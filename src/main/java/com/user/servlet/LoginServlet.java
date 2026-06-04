@@ -44,8 +44,6 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("failedMsg", "Email & Password Invalid");
 					resp.sendRedirect("login.jsp");
 				}
-
-				resp.sendRedirect("home.jsp");
 			}
 
 		} catch (Exception e) {

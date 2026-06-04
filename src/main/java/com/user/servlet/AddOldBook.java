@@ -22,17 +22,17 @@ public class AddOldBook extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			String bookName = req.getParameter("bname");
-			String author = req.getParameter("author");
-			String price = req.getParameter("price");
-			String categories = "Old";
-			String status = "Active";
-			Part part = req.getPart("bimg");
-			String fileName = part.getSubmittedFileName();
-			
-			String useremail=req.getParameter("user");
+			String bookName  = req.getParameter("bname");
+			String author    = req.getParameter("author");
+			String price     = req.getParameter("price");
+			String genre     = req.getParameter("genre");
+			String useremail = req.getParameter("user");
+			Part   part      = req.getPart("bimg");
+			String fileName  = part.getSubmittedFileName();
+			if (fileName == null || fileName.trim().isEmpty()) fileName = "book1.jpg";
 
-			BookDtls b = new BookDtls(bookName, author, price, categories, status, fileName, useremail);
+			BookDtls b = new BookDtls(bookName, author, price, "Old", "Active", fileName, useremail);
+			b.setGenre(genre != null ? genre : "General");
 
 			BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
 

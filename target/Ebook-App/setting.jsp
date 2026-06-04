@@ -1,117 +1,115 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturni E-Books | Settings</title>
 <%@include file="all_component/allCss.jsp"%>
-<style type="text/css">
-a {
-	text-decorations: none;
-	color: black;
+<style>
+.settings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 20px; }
+.settings-item {
+  background: white; border-radius: 18px;
+  padding: 28px 24px; text-align: center;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--border);
+  transition: var(--t); text-decoration: none; display: block;
 }
-
-a-hover {
-	text-decorations: none;
+.settings-item:hover {
+  transform: translateY(-6px); box-shadow: var(--shadow-lg);
+  border-color: rgba(108,99,255,.2); text-decoration: none;
+}
+.settings-item .si-icon {
+  width: 60px; height: 60px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; color: white; margin: 0 auto 16px;
+}
+.settings-item .si-title {
+  font-size: .95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;
+}
+.settings-item .si-desc {
+  font-size: .78rem; color: var(--text-muted); line-height: 1.5;
 }
 </style>
 </head>
-<body style="background-color: #f7f7f7;">
+<body>
+<c:if test="${empty userobj}"><c:redirect url="login.jsp"/></c:if>
+<%@ include file="all_component/navbar.jsp"%>
 
-	<c:if test="${empty userobj }">
-		<c:redirect url="login.jsp" />
-	</c:if>
+<div style="background:var(--light);padding:50px 0;min-height:80vh">
+  <div class="container">
 
-	<%@ include file="all_component/navbar.jsp"%>
+    <div class="section-header reveal" style="text-align:left;margin-bottom:36px">
+      <div class="section-tag"><i class="fas fa-cog"></i> &nbsp;Account</div>
+      <h2 class="section-title">Settings</h2>
+      <p style="margin-top:8px;color:var(--text-muted);font-size:.88rem">
+        Welcome back, <strong style="color:var(--primary)">${userobj.name}</strong>
+      </p>
+    </div>
 
-	<div class="container">
+    <div class="settings-grid">
 
+      <a href="sell_book.jsp" class="settings-item reveal d1">
+        <div class="si-icon" style="background:linear-gradient(135deg,#f9ca24,#e17b20)">
+          <i class="fas fa-tag"></i>
+        </div>
+        <div class="si-title">Sell a Book</div>
+        <div class="si-desc">List your old books for sale</div>
+      </a>
 
-		<h3 class="text-center">Hello,${userobj.name }</h3>
+      <a href="old_book.jsp" class="settings-item reveal d2">
+        <div class="si-icon" style="background:linear-gradient(135deg,var(--primary),var(--primary-dark))">
+          <i class="fas fa-book"></i>
+        </div>
+        <div class="si-title">My Listed Books</div>
+        <div class="si-desc">Manage books you've listed</div>
+      </a>
 
-		<div class="row p-5">
-			<div class="col-md-4">
-				<a href="sell_book.jsp">
-					<div class="card">
-						<div class="card-body text-center">
-							<div class="text-primary">
-								<i class="fas fa-book-open fa-3x"></i>
-							</div>
-							<h3>Sell Old Book</h3>
-						</div>
-					</div>
-				</a>
-			</div>
-			
-			
-			<div class="col-md-4">
-				<a href="old_book.jsp">
-					<div class="card">
-						<div class="card-body text-center">
-							<div class="text-primary">
-								<i class="fas fa-book-open fa-3x"></i>
-							</div>
-							<h3>Old Book</h3>
-						</div>
-					</div>
-				</a>
-			</div>
-			
+      <a href="edit_profile.jsp" class="settings-item reveal d3">
+        <div class="si-icon" style="background:linear-gradient(135deg,#00d2d3,#48dbfb)">
+          <i class="fas fa-user-edit"></i>
+        </div>
+        <div class="si-title">Edit Profile</div>
+        <div class="si-desc">Update your name, email & phone</div>
+      </a>
 
-			<div class="col-md-4">
-				<a href="edit_profile.jsp">
-					<div class="card">
-						<div class="card-body text-center">
-							<div class="text-primary">
-								<i class="fas fa-edit fa-3x"></i>
-							</div>
-							<h3>Edit Profile</h3>
-						</div>
-					</div>
-				</a>
-			</div>
+      <a href="order.jsp" class="settings-item reveal d4">
+        <div class="si-icon" style="background:linear-gradient(135deg,#a29bfe,#6c63ff)">
+          <i class="fas fa-box"></i>
+        </div>
+        <div class="si-title">My Orders</div>
+        <div class="si-desc">View your order history</div>
+      </a>
 
-			
+      <a href="checkout.jsp" class="settings-item reveal d1">
+        <div class="si-icon" style="background:linear-gradient(135deg,var(--secondary),#e0506f)">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="si-title">My Cart</div>
+        <div class="si-desc">View items in your cart</div>
+      </a>
 
+      <a href="helpline.jsp" class="settings-item reveal d2">
+        <div class="si-icon" style="background:linear-gradient(135deg,#43e97b,#38f9d7)">
+          <i class="fas fa-headset"></i>
+        </div>
+        <div class="si-title">Help Center</div>
+        <div class="si-desc">Get support & contact us</div>
+      </a>
 
-			<div class="col-md-4 mt-3">
-				<a href="order.jsp">
-					<div class="card">
-						<div class="card-body text-center">
-							<div class="text-danger">
-								<i class="fas fa-box-open fa-3x"></i>
-							</div>
-							<h3>My Order</h3>
-							<p>Track your Order</p>
-						</div>
-					</div>
-				</a>
-			</div>
+      <a href="logout" class="settings-item reveal d3">
+        <div class="si-icon" style="background:linear-gradient(135deg,#ff7675,#d63031)">
+          <i class="fas fa-sign-out-alt"></i>
+        </div>
+        <div class="si-title">Logout</div>
+        <div class="si-desc">Sign out of your account</div>
+      </a>
 
+    </div>
+  </div>
+</div>
 
-			<div class="col-md-6 mt-3 p-2">
-				<a href="helpline.jsp">
-					<div class="card">
-						<div class="card-body text-center">
-							<div class="text-primary">
-								<i class="fas fa-user-circle fa-3x"></i>
-							</div>
-							<h3>Help Center</h3>
-							<p>24/7 Service</p>
-						</div>
-					</div>
-				</a>
-			</div>
-
-
-		</div>
-	</div>
-
-	<div style="margin-top: 60px;">
-		<%@include file="all_component/footer.jsp"%>
-	</div>
+<%@ include file="all_component/footer.jsp"%>
 </body>
 </html>

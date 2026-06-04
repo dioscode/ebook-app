@@ -24,7 +24,7 @@
     </div>
 
     <h2 class="auth-title">List Your Book</h2>
-    <p class="auth-sub">Fill in the details and upload a photo</p>
+    <p class="auth-sub">Fill in the details and reach thousands of readers</p>
 
     <c:if test="${not empty succMsg}">
       <div class="alert-m alert-m-success"><i class="fas fa-check-circle"></i> ${succMsg}</div>
@@ -42,18 +42,36 @@
         <label class="fl">Book Name</label>
         <input type="text" name="bname" class="fc" placeholder="e.g. The Great Gatsby" required>
       </div>
+
       <div class="fg">
         <label class="fl">Author Name</label>
         <input type="text" name="author" class="fc" placeholder="e.g. F. Scott Fitzgerald" required>
       </div>
-      <div class="fg">
-        <label class="fl">Price (L)</label>
-        <input type="number" name="price" class="fc" placeholder="e.g. 800" min="1" required>
+
+      <div style="display:flex;gap:14px">
+        <div class="fg" style="flex:1">
+          <label class="fl">Price (L)</label>
+          <input type="number" name="price" class="fc" placeholder="800" min="1" required>
+        </div>
+        <div class="fg" style="flex:1">
+          <label class="fl">Genre</label>
+          <select name="genre" class="fc" style="cursor:pointer" required>
+            <option value="">-- Select genre --</option>
+            <option value="Programming">💻 Programming</option>
+            <option value="Fiction">📖 Fiction</option>
+            <option value="Science">🔬 Science</option>
+            <option value="History">🏛️ History</option>
+            <option value="Self-Help">🌱 Self-Help</option>
+            <option value="Mathematics">📐 Mathematics</option>
+            <option value="General">📚 General</option>
+          </select>
+        </div>
       </div>
+
       <div class="fg">
-        <label class="fl">Book Cover Photo</label>
+        <label class="fl">Book Cover Photo <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
         <input type="file" name="bimg" accept="image/*" class="fc" style="padding:10px 16px;cursor:pointer">
-        <small style="color:var(--text-muted);font-size:.75rem;margin-top:4px;display:block">JPG, PNG accepted</small>
+        <small style="color:var(--text-muted);font-size:.75rem;margin-top:4px;display:block">JPG, PNG — if not uploaded, a stylized cover is generated automatically</small>
       </div>
 
       <button type="submit" class="btn-auth" style="background:linear-gradient(135deg,#f9ca24,#e17b20)">
@@ -64,7 +82,6 @@
     <p class="auth-footer-txt" style="margin-top:18px">
       <a href="old_book.jsp" class="auth-link"><i class="fas fa-list" style="margin-right:4px"></i>My Listed Books</a>
     </p>
-
   </div>
 </div>
 
